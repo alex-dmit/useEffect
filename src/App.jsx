@@ -1,12 +1,15 @@
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import './App.css'
+import NewTask from './components/NewTask'
 import TodosList from './components/TodosList'
+import UserSelector from './components/UserSelector'
 
 function App() {
-  console.log('render')
+  console.log('render App')
   const [loading, setLoading] = useState(false)
   const [todos, setTodos] = useState([])
   const [users, setUsers] = useState([])
+  const [userId, setUserId] = useState(5)
   useEffect(() => {
     let start = true
     // const controller = new AbortController();
@@ -28,22 +31,31 @@ function App() {
         }
       } catch (error) {
         console.log(error)
-      } 
+      }
     }
     getData()
     return () => {
       start = false
       // controller.abort()
-    } 
+    }
   }, [])
-  
+
   return (
     <div>
+      <NewTask />
+
+      <UserSelector
+        users={users}
+        userId={userId}
+        setUserId={setUserId}
+      />
+
       {
-        !loading ? <TodosList todos={todos} users={users}>
-          <h1>Todos</h1>
-        </TodosList> : 'Loading...'
+        !loading 
+          ? <TodosList userId={userId} todos={todos} users={users} />
+          : 'Loading...'
       }
+
     </div>
   )
 }
