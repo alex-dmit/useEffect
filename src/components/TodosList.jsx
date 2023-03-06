@@ -7,14 +7,17 @@ function TodosList(props) {
       .filter(todo => todo.userId === props.userId)
       .map(todo => {
         console.log('MAP')
-        return <li key={todo.id}>
-          {props.users.find(user => user.id === todo.userId)?.name}::
-          {todo.id}::
-          {todo.title}::
-          {String(todo.completed)}
+        return <li
+          onClick={e => toggleTodo(todo)}
+          key={todo.id} style={{
+            textDecoration: todo.completed ? 'line-through' : 'none'
+          }}>
+          {todo.id}:
+          {' ' + todo.title}
+          <button onClick={e => deleteTodo(todo)}>Delete</button>
         </li>
       })
-  }, [props.userId])
+  }, [props.userId, props.todos])
 
   return (
     <>
@@ -22,6 +25,21 @@ function TodosList(props) {
       <ul>{filteredTodos}</ul>
     </>
   )
+
+  function toggleTodo(todo) {
+    props.setTodos(prevTodos => {
+      // Immutable logic
+      return prevTodos.map(prevTodo => prevTodo.id === todo.id
+        ? { ...prevTodo, completed: !prevTodo.completed }
+        : prevTodo)
+    })
+  }
+
+  function deleteTodo(todo) {
+    props.setTodos(prevTodos => {
+      return prevTodos.filter(prevTodo => prevTodo.id !== todo.id)
+    })
+  }
 }
 
 const memoTodosList = memo(TodosList)

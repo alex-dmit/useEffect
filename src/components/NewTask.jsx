@@ -1,15 +1,36 @@
-import React, { useState } from 'react'
+// @ts-check
+import React, { useCallback, useState } from 'react'
+import Form from './Form';
 
-export default function NewTask() {
+export default function NewTask(props) {
   console.log('NewTask');
-  const [taskName, setTaskName] = useState('')
+  const [taskTitle, setTaskTitle] = useState('')
+  const [userId, setUserId] = useState(1)
+  const id = (props.todos.length) 
+    ? props.todos.slice(-1).pop().id + 1
+    : 0
+  const handleSubmit = useCallback((event) => {
+    event.preventDefault()
+    console.log(id);
+    console.log('Submit');
+    props.setTodos(prevTodos => {
+      return [...prevTodos, {
+        id,
+        title: taskTitle,
+        completed: false,
+        userId
+      }]
+    })
+    setTaskTitle('')
+  }, [taskTitle, userId])
   return (
-    <>
-      <input
-        type={'text'}
-        value={taskName}
-        onChange={e => setTaskName(e.target.value)}
-      />
-    </>
+    <Form
+      taskTitle={taskTitle}
+      setTaskTitle={setTaskTitle}
+      handleSubmit={handleSubmit}
+      users={props.users}
+      userId={userId}
+      setUserId={setUserId}
+    />
   )
 }

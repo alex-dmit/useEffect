@@ -10,6 +10,7 @@ function App() {
   const [todos, setTodos] = useState([])
   const [users, setUsers] = useState([])
   const [userId, setUserId] = useState(5)
+
   useEffect(() => {
     let start = true
     // const controller = new AbortController();
@@ -42,7 +43,11 @@ function App() {
 
   return (
     <div>
-      <NewTask />
+      <NewTask
+        users={users}
+        todos={todos}
+        setTodos={setTodos}
+      />
 
       <UserSelector
         users={users}
@@ -51,8 +56,13 @@ function App() {
       />
 
       {
-        !loading 
-          ? <TodosList userId={userId} todos={todos} users={users} />
+        !loading
+          ? <TodosList
+              userId={userId}
+              todos={todos}
+              users={users}
+              setTodos={setTodos}
+            />
           : 'Loading...'
       }
 
