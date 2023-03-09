@@ -1,7 +1,9 @@
-import React, { memo } from 'react'
+import React, { useContext } from 'react'
+import { DataContext } from '../DataContext';
 
 export default function UserSelector(props) {
   // console.log(props.users);
+  const { users } = useContext(DataContext)
   console.log('UserSelector')
   return (
     <select
@@ -9,7 +11,7 @@ export default function UserSelector(props) {
       onChange={e => props.setUserId(+e.target.value)} 
     >
       {
-        props.users.map(user => {
+        users.map(user => {
           return <option value={user.id} key={user.id}>
             {user.name}
           </option>

@@ -1,15 +1,17 @@
-import React, { memo } from 'react'
+import React, { memo, useContext } from 'react'
+import { DataContext } from '../DataContext';
 import UserSelector from './UserSelector';
 
+// props
 function Form({
   taskTitle,
   setTaskTitle,
   handleSubmit,
-  users,
   userId,
   setUserId
 }) {
   console.log('Form');
+  const { users } = useContext(DataContext)
   return (
     <form onSubmit={handleSubmit}>
       <label htmlFor="todo-title">New title:</label>

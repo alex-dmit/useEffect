@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import './App.css'
 import NewTask from './components/NewTask'
 import TodosList from './components/TodosList'
 import UserSelector from './components/UserSelector'
+import { DataContext } from './DataContext'
 
 function App() {
   console.log('render App')
@@ -27,6 +28,15 @@ function App() {
           })
           const users = await resUsers.json()
           setTodos(todos)
+          /**
+           * {
+           *    'user1id': {
+           *        'task1id': {...},
+           *        'task2id': {...},
+           *        'task3id': {...},
+           *    }
+           * }
+           */
           setUsers(users)
           setLoading(false)
         }
@@ -42,15 +52,13 @@ function App() {
   }, [])
 
   return (
-    <div>
+    <DataContext.Provider value={{users}}>
       <NewTask
-        users={users}
         todos={todos}
         setTodos={setTodos}
       />
 
       <UserSelector
-        users={users}
         userId={userId}
         setUserId={setUserId}
       />
@@ -58,15 +66,13 @@ function App() {
       {
         !loading
           ? <TodosList
-              userId={userId}
-              todos={todos}
-              users={users}
-              setTodos={setTodos}
-            />
+            userId={userId}
+            todos={todos}
+            setTodos={setTodos}
+          />
           : 'Loading...'
       }
-
-    </div>
+    </DataContext.Provider>
   )
 }
 

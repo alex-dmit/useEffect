@@ -2,6 +2,8 @@ import React, { memo, useMemo } from 'react'
 
 function TodosList(props) {
   console.log('TodosList')
+  // const filteredTodos = todos[props.userId]
+  // Object.keys(todos[props.userId]).map
   const filteredTodos = useMemo(() => {
     return props.todos
       .filter(todo => todo.userId === props.userId)

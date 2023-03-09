@@ -28,7 +28,6 @@ export default function NewTask(props) {
       taskTitle={taskTitle}
       setTaskTitle={setTaskTitle}
       handleSubmit={handleSubmit}
-      users={props.users}
       userId={userId}
       setUserId={setUserId}
     />
